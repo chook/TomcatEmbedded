@@ -30,7 +30,7 @@
 				<version>2.2</version>
 				<configuration>
 					<path>/TomcatEmbedded</path>
-					<port>8080</port> <!-- Only works for tomcat7 maven plugin -->
+					<port>8082</port> <!-- Only works for tomcat7 maven plugin -->
 				</configuration>
 			</plugin>
 		</plugins>
