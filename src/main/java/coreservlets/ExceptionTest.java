@@ -16,7 +16,7 @@ public class ExceptionTest {
 			test2();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			throw new Exception();
+			throw new Exception(e);
 		}
 	}
 
@@ -25,7 +25,7 @@ public class ExceptionTest {
 			test3();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			throw new InterruptedException();
+			throw new InterruptedException(e);
 		}
 	}
 
@@ -34,7 +34,7 @@ public class ExceptionTest {
 			test4();
 		} catch (NoSuchFieldException e) {
 			e.printStackTrace();
-			throw new ClassNotFoundException();
+			throw new ClassNotFoundException(e);
 		}
 	}
 
