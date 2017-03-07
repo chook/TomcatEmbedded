@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.persistence.Entity;
 import javax.servlet.ServletException;
@@ -21,11 +20,16 @@ import org.hibernate.annotations.Parent;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Example;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Servlet implementation class FirstServlet
  */
 @WebServlet("/FirstServlet")
 public class FirstServlet extends HttpServlet {
+	private static final Logger logger = LoggerFactory.getLogger(FirstServlet.class);
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -42,15 +46,29 @@ public class FirstServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		if (request.getParameter("boom2") != null) {
+			throw new RuntimeException("boom2 - up to tomcat");
+		} 
 		try
 		{
+			logger.debug("welcome " + request);
 			if (request.getParameter("err") != null) {
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			} else if (request.getParameter("boom") != null) {
 				throw new RuntimeException("boom");
 			} else if (request.getParameter("log") != null) {
-				Logger logger = Logger.getLogger("FirstServlet");
-				logger.severe("log error");
+				logger.error("log error");
+			} else if (request.getParameter("loge") != null) {
+				try
+				{
+					logger.info("about to loge");
+					
+					throw new Exception("loge");
+				}
+				catch (Exception e11)
+				{
+					logger.error("loge error", e11);
+				}
 			} else if (request.getParameter("remote") != null) {
 				// I'm the one you should use
 				URL url = new URL(request.getParameter("remote"));
