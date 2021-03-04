@@ -53,6 +53,7 @@ jobs:
               TARGET_CARTS: \\n\
                   remoteUrl: http://google.com \\n\
             > services.yaml
+            cat services.yaml
       - run: 
           name: "[UP9] Fetch and run tests"
           command: up9 test:run-local $UP9_WORKSPACE $UP9_SUBSYSTEM --non-interactive --services-config-file=services.yaml
