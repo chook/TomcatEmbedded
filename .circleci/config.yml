@@ -50,10 +50,10 @@ jobs:
           name: "[UP9] Environment setup"
           command: |
             tab="  "
-            echo \
-              services: \\n\
-              "$tab"TARGET_CARTS: \\n\
-              "$tab""$tab"remoteUrl: http://google.com \\n\
+            echo 
+              services:
+              "$tab"TARGET_CARTS:
+              "$tab""$tab"remoteUrl: http://google.com
             > services.yaml
             cat services.yaml
       - run: 
