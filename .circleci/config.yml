@@ -4,19 +4,6 @@ orbs:
   maven: circleci/maven@1.1.1
 
 jobs:
-  test:
-    docker:
-      - image: circleci/openjdk:stretch
-        # auth:
-        #   username: mydockerhub-user
-        #   password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
-            - v1-dependencies- # fallback in case previous cache key is not found
-      - run: mvn test
   build:
     docker:
       - image: circleci/openjdk:stretch
@@ -34,6 +21,26 @@ jobs:
           path: target/TomcatEmbedded.war
       - store_artifacts:
           path: target/dependency/webapp-runner.jar
+  test:
+    docker:
+      - image: circleci/openjdk:stretch
+        # auth:
+        #   username: mydockerhub-user
+        #   password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
+            - v1-dependencies- # fallback in case previous cache key is not found
+      - run: mvn test
+  run-up9:
+    docker:
+      - image: node:12-alpine
+    steps:
+      - run: npm i -g up9
+      - run: up9 auth:login --client-id=$UP9_CLIENT_ID --client-secret=$UP9_CLIENT_SECRET --env=$UP9_ENV
+      - run: up9 test:run-local $UP9_WORKSPACE $UP9_SUBSYSTEM --non-interactive
 workflows:
   version: 2
 
@@ -43,4 +50,6 @@ workflows:
       - test:
           requires:
             - build
-      # - run
+      - run-up9:
+        requires:
+          - test
