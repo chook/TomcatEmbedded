@@ -35,6 +35,7 @@ jobs:
             - v1-dependencies- # fallback in case previous cache key is not found
       - run: mvn test
   run-up9:
+    machine: true
     docker:
       - image: node:12-alpine
     steps:
