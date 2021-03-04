@@ -1,9 +1,55 @@
 version: 2.1
 
 orbs:
-  maven: circleci/maven@1.1
+  maven: circleci/maven@1.1.1
+
+jobs:
+  test:
+    docker:
+      - image: circleci/openjdk:stretch
+        # auth:
+        #   username: mydockerhub-user
+        #   password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
+            - v1-dependencies- # fallback in case previous cache key is not found
+      - run: ./mvnw -Dmaven.test.skip=true package
+      - run: mvn test
+      - save_cache:
+            paths:
+              - ~/.m2
+            key: v1-dependencies-{{ checksum "pom.xml" }}
+
+  build:
+    docker:
+      - image: circleci/openjdk:stretch
+        # auth:
+        #   username: mydockerhub-user
+        #   password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    steps:
+      - checkout
+      - run: mvn -Dmaven.test.skip=true package
+      - store_artifacts:
+          path: target/TomcatEmbedded.war
+      - store_artifacts:
+          path: target/dependency/webapp-runner.jar
+          
+
+  # run:
+  #   steps:
+  #     - checkout
+  #     - run: java -jar target
 
 workflows:
-  maven_test:
+  version: 2
+
+  build-then-test:
     jobs:
-      - maven/test
+      - build
+      - test:
+          requires:
+            - build
+      # - run
