@@ -40,7 +40,6 @@ jobs:
     steps:
       - setup_remote_docker:
           version: 19.03.13
-          docker_layer_caching: true
       - run: npm i -g up9
       - run: up9 auth:login --client-id=$UP9_CLIENT_ID --client-secret=$UP9_CLIENT_SECRET --env=$UP9_ENV
       - run: up9 test:run-local $UP9_WORKSPACE $UP9_SUBSYSTEM --non-interactive
