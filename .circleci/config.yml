@@ -66,7 +66,7 @@ jobs:
           command: "docker pull gcr.io/up9-docker-hub/test-runner/develop:latest"
       - run: 
           name: "[UP9] Fetch and run tests"
-          command: up9 test:run-local $UP9_WORKSPACE $UP9_SUBSYSTEM --non-interactive --services-config-file=services.yaml --debug
+          command: up9 test:run-local $UP9_WORKSPACE $UP9_SUBSYSTEM --non-interactive --services-config-file=services.yaml
       - store_test_results:
           path: ~/
 workflows:
