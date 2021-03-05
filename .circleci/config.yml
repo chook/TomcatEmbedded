@@ -53,7 +53,7 @@ jobs:
             echo "services:" > services.yaml
             echo "$tab"TARGET_CARTS: >> services.yaml
             echo "$tab""$tab"remoteUrl: http://google.com >> services.yaml
-            mkdir -p /root/.config/up9/tests/$UP9_WORKSPACE
+            mkdir -p ~/.config/up9/tests/$UP9_WORKSPACE
       - run:
           name: "[UP9] Fetch containers"
           command: "docker pull gcr.io/up9-docker-hub/test-runner/develop:latest"
