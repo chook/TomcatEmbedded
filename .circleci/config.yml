@@ -21,7 +21,7 @@ jobs:
           path: target/TomcatEmbedded.war
       - store_artifacts:
           path: target/dependency/webapp-runner.jar
-  test:
+  unit-tests:
     docker:
       - image: circleci/openjdk:stretch
         # auth:
@@ -34,7 +34,12 @@ jobs:
             - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
             - v1-dependencies- # fallback in case previous cache key is not found
       - run: mvn test
-  run-up9:
+  deploy:
+    docker:
+      - image: circleci/node:latest #node:12-alpine
+    steps:
+      - run: "echo deployed"
+  up9-integration-test:
     docker:
       - image: circleci/node:latest #node:12-alpine
     steps:
@@ -68,9 +73,14 @@ workflows:
   build-then-test:
     jobs:
       - build
-      - test:
+      - unit-tests:
           requires:
             - build
-      - run-up9:
+      - deploy:
           requires:
-            - test
+            - build
+            - unit-tests
+      - up9-integration-test:
+          requires:
+            - unit-tests
+            - deploy
