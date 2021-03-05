@@ -7,9 +7,6 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:stretch
-        # auth:
-        #   username: mydockerhub-user
-        #   password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
       - run: mvn -Dmaven.test.skip=true package
@@ -24,9 +21,6 @@ jobs:
   unit-tests:
     docker:
       - image: circleci/openjdk:stretch
-        # auth:
-        #   username: mydockerhub-user
-        #   password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
       - restore_cache:
@@ -34,6 +28,14 @@ jobs:
             - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
             - v1-dependencies- # fallback in case previous cache key is not found
       - run: mvn test
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - store_test_results:
+          path: ~/test-results
   deploy:
     docker:
       - image: circleci/node:latest #node:12-alpine
