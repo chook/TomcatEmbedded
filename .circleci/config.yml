@@ -43,13 +43,13 @@ jobs:
       - run: "echo deployed"
   up9-integration-test:
     docker:
-      - image: circleci/node:latest #node:12-alpine
+      - image: gcr.io/up9-docker-hub/circleci/cimg/up9:latest #circleci/node:latest #node:12-alpine
     steps:
       - setup_remote_docker:
           version: 19.03.13
-      - run: 
-          name: "[UP9] Install latest CLI"
-          command: sudo npm i -g up9
+      # - run: 
+      #     name: "[UP9] Install latest CLI"
+      #     command: sudo npm i -g up9
       - run: 
           name: "[UP9] Authenticate"
           command: up9 auth:login --client-id=$UP9_CLIENT_ID --client-secret=$UP9_CLIENT_SECRET --env=$UP9_ENV
@@ -61,9 +61,9 @@ jobs:
             echo "$tab"TARGET_CARTS: >> services.yaml
             echo "$tab""$tab"remoteUrl: http://google.com >> services.yaml
             mkdir -p ~/.config/up9/tests/$UP9_WORKSPACE
-      - run:
-          name: "[UP9] Fetch containers"
-          command: "docker pull gcr.io/up9-docker-hub/test-runner/develop:latest"
+      # - run:
+      #     name: "[UP9] Fetch containers"
+      #     command: "docker pull gcr.io/up9-docker-hub/test-runner/develop:latest"
       - run: 
           name: "[UP9] Fetch and run tests"
           command: up9 test:run-local $UP9_WORKSPACE $UP9_SUBSYSTEM --non-interactive --services-config-file=services.yaml
