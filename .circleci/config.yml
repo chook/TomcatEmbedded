@@ -60,13 +60,13 @@ jobs:
             echo "services:" > services.yaml
             echo "$tab"TARGET_CARTS: >> services.yaml
             echo "$tab""$tab"remoteUrl: http://google.com >> services.yaml
-            mkdir -p ~/.config/up9/tests/$UP9_WORKSPACE
+      # mkdir -p ~/.config/up9/tests/$UP9_WORKSPACE
       # - run:
       #     name: "[UP9] Fetch containers"
       #     command: "docker pull gcr.io/up9-docker-hub/test-runner/develop:latest"
       - run: 
           name: "[UP9] Fetch and run tests"
-          command: up9 test:run-local $UP9_WORKSPACE $UP9_SUBSYSTEM --non-interactive --services-config-file=services.yaml
+          command: up9 test:run-local $UP9_WORKSPACE $UP9_SUBSYSTEM --non-interactive --services-config-file=services.yaml --junit
       - store_test_results:
           path: ~/
 workflows:
