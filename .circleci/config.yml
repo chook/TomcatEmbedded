@@ -58,6 +58,8 @@ jobs:
       - run:
           name: "[UP9] Environment setup"
           command: |
+            mkdir -p ~/test-results/up9
+            cd ~/test-results/up9
             tab="  "
             echo "services:" > services.yaml
             echo "$tab"TARGET_CARTS: >> services.yaml
@@ -69,7 +71,6 @@ jobs:
       - run: 
           name: "[UP9] Fetch and run tests"
           command: |
-            mkdir -p ~/test-results/up9
             cd ~/test-results/up9
             up9 test:run-local $UP9_WORKSPACE $UP9_SUBSYSTEM --services-config-file=services.yaml --junit
       - store_test_results:
