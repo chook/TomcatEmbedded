@@ -37,7 +37,7 @@ jobs:
       - store_test_results:
           path: ~/test-results
       - store_artifacts:
-          path: ~/junit.*.xml
+          path: ~/test-results
   deploy:
     docker:
       - image: circleci/node:latest #node:12-alpine
