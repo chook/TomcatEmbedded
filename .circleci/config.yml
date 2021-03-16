@@ -36,6 +36,8 @@ jobs:
           when: always
       - store_test_results:
           path: ~/test-results
+      - store_artifacts:
+          path: ~/junit.*.xml
   deploy:
     docker:
       - image: circleci/node:latest #node:12-alpine
@@ -67,8 +69,15 @@ jobs:
       - run: 
           name: "[UP9] Fetch and run tests"
           command: up9 test:run-local $UP9_WORKSPACE $UP9_SUBSYSTEM --services-config-file=services.yaml --junit
+      - run:
+          name: "[UP9] Store test results"
+          command: |
+            mkdir -p ~/test-results/up9
+            cp ~/junit.*.xml ~/test-results/up9
       - store_test_results:
-          path: ~/
+          path: ~/test-results/up9
+      - store_artifacts:
+          path: ~/test-results/up9
 workflows:
   version: 2
 
