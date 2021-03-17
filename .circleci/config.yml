@@ -40,7 +40,7 @@ jobs:
           path: ~/test-results/junit
   deploy:
     docker:
-      - image: circleci/node:latest #node:12-alpine
+      - image: circleci/openjdk:stretch
     steps:
       - run:
           name: Initialize server
