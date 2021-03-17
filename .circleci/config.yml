@@ -42,7 +42,11 @@ jobs:
     docker:
       - image: circleci/node:latest #node:12-alpine
     steps:
-      - run: "echo deployed"
+      - run: Initialize server
+      - command: |
+        java -jar target/dependency/webapp-runner.jar --port 8088 --expand-war target/*.war &
+        sleep 3
+        curl localhost:8088/
   up9-integration-test:
     docker:
       - image: gcr.io/up9-docker-hub/circleci/cimg/up9:latest #circleci/node:latest #node:12-alpine
