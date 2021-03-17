@@ -73,10 +73,12 @@ jobs:
           command: |
             cd ~/test-results/up9
             up9 test:run-local $UP9_WORKSPACE $UP9_SUBSYSTEM --services-config-file=services.yaml --junit
-            cat junit.*.xml > up9-results.xml
-            awk 'NR==2 {print "<properties><property name=\"up9-link\" value=\"https://up9.app\"/></properties>"} 1' junit.*.xml > up9-results.xml
+            cat junit.*.xml > up9-results2.xml
+            sed 's/up9.tests.ch.weavesock.010321.carts.Tests_carts/https:\/\/up9.app/g' up9-results2.xml > up9-results.xml
             rm junit.*
-          
+            rm up9-results2.xml
+          #awk 'NR==2 {print "<properties><property name=\"up9-link\" value=\"https://up9.app\"/></properties>"} 1' junit.*.xml > up9-results.xml
+            
       - store_test_results:
           path: ~/test-results/up9
       - store_artifacts:
