@@ -74,6 +74,7 @@ jobs:
             cd ~/test-results/up9
             up9 test:run-local $UP9_WORKSPACE $UP9_SUBSYSTEM --services-config-file=services.yaml --junit
             cat junit.*.xml > up9-results.xml
+            rm junit.*
           #awk 'NR==3 {print "<properties><property name=\"up9-link\" value=\"https://up9.app\"/></properties>"} 1' junit.*.xml > up9-results.xml
       - store_test_results:
           path: ~/test-results/up9
