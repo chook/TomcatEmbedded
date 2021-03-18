@@ -4,3 +4,10 @@ services:
     image: chook/tomcat-embedded
     ports:
       - 8080:8080
+  tester:
+    image: curlimages/curl
+    depends_on:
+      - "tomcat-embedded"
+    command: |
+        sh -c "sleep 5s &&
+          curl http://tomcat-embedded:8080"

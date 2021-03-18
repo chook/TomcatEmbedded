@@ -60,9 +60,14 @@ jobs:
           command: |
             mvn -DskipTests=true package jib:dockerBuild
       - run: 
-          name: Run server
+          name: Run test
           command: |
-            docker-compose up
+            docker-compose up -d
+            sleep 30
+      - run: 
+          name: Stop test
+          command: |
+            docker-compose down
 
       # docker run -d --name tomcat-embedded chook/tomcat-embedded
       #docker ps
