@@ -38,6 +38,18 @@ jobs:
           path: ~/test-results/junit
       - store_artifacts:
           path: ~/test-results/junit
+  up9-tap-and-learn:
+    docker:
+      - image: gcr.io/up9-docker-hub/circleci/cimg/up9:latest #circleci/node:latest #node:12-alpine
+    steps:
+      - setup_remote_docker:
+          version: 19.03.13
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
+            - v1-dependencies- # fallback in case previous cache key is not found
+      - run: mvn test
   deploy:
     docker:
       - image: circleci/openjdk:stretch
@@ -97,6 +109,9 @@ workflows:
       - unit-tests:
           requires:
             - build
+      - up9-tap-and-learn:
+          requires:
+            - unit-tests
       - deploy:
           requires:
             - build
