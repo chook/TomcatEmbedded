@@ -20,7 +20,7 @@ jobs:
           path: target/dependency/webapp-runner.jar
   unit-tests:
     docker:
-      - image: circleci/openjdk:stretch
+      - image: cimg/openjdk:latest
     steps:
       - checkout
       - restore_cache:
