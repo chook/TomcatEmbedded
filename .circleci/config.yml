@@ -59,11 +59,11 @@ jobs:
           name: Build server
           command: |
             mvn -DskipTests=true package jib:dockerBuild
+            up9 tap:create-docker-compose ch.$CIRCLE_JOB-$CIRCLE_BUILD_NUM --agent-name=$CIRCLE_JOB-$CIRCLE_BUILD_NUM
       - run: 
           name: Run test
           command: |
-            up9 tap:create-docker-compose $CIRCLE_JOB-$CIRCLE_BUILD_NUM --agent-name=$CIRCLE_JOB-$CIRCLE_BUILD_NUM
-            docker-compose -f docker-compose.yml -f docker-compose-up9.yml -d
+            docker-compose -f docker-compose.yml -f docker-compose-up9.yml up -d
             sleep 30
       - run: 
           name: Stop test
