@@ -52,6 +52,7 @@ jobs:
       - run: 
           name: Running and learning
           command: |
+            mvn -Dmaven.test.skip=true package
             java -jar target/dependency/webapp-runner.jar --port 8088 --expand-war target/*.war &
             sleep 3
             curl localhost:8088/
