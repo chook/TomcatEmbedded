@@ -20,7 +20,7 @@ jobs:
           path: target/dependency/webapp-runner.jar
   unit-tests:
     docker:
-      - image: cimg/openjdk:latest
+      - image: cimg/openjdk:15.0.1-node
     steps:
       - checkout
       - restore_cache:
@@ -40,7 +40,7 @@ jobs:
           path: ~/test-results/junit
   up9-tap-and-learn:
     docker:
-      - image: cimg/openjdk:latest
+      - image: cimg/openjdk:15.0.1-node
     steps:
       - setup_remote_docker:
           version: 19.03.13
