@@ -56,9 +56,12 @@ jobs:
           name: "[UP9] Authenticate"
           command: up9 auth:login --client-id=$UP9_CLIENT_ID --client-secret=$UP9_CLIENT_SECRET --env=$UP9_ENV
       - run: 
-          name: Run server
+          name: Build server
           command: |
             mvn -DskipTests=true package jib:dockerBuild
+      - run: 
+          name: Run server
+          command: |
             docker-compose up
 
       # docker run -d --name tomcat-embedded chook/tomcat-embedded
