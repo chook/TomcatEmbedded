@@ -1,0 +1,6 @@
+version: "3.7"
+services:
+  tomcat-embedded:
+    image: chook/tomcat-embedded
+    ports:
+      - 8080:8080
