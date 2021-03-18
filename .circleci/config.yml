@@ -62,7 +62,8 @@ jobs:
       - run: 
           name: Run test
           command: |
-            docker-compose up -d
+            up9 tap:create-docker-compose $CIRCLE_JOB-$CIRCLE_BUILD_NUM
+            docker-compose -f docker-compose.yml -f docker-compose-up9.yml -d
             sleep 30
       - run: 
           name: Stop test
