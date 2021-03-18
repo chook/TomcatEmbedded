@@ -49,17 +49,17 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
             - v1-dependencies- # fallback in case previous cache key is not found
-      - run: mvn test
-  deploy:
-    docker:
-      - image: circleci/openjdk:stretch
-    steps:
-      - run:
-          name: Initialize server
+      - run: 
+          name: Running and learning
           command: |
             java -jar target/dependency/webapp-runner.jar --port 8088 --expand-war target/*.war &
             sleep 3
             curl localhost:8088/
+  deploy:
+    docker:
+      - image: circleci/openjdk:stretch
+    steps:
+      - run: echo "Deployed"          
   up9-integration-test:
     docker:
       - image: gcr.io/up9-docker-hub/circleci/cimg/up9:latest #circleci/node:latest #node:12-alpine
