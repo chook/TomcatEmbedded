@@ -54,6 +54,7 @@ jobs:
           command: |
             mvn -DskipTests=true package jib:dockerBuild
             docker run -d -p8088:8080 chook/tomcat-embedded
+            docker ps
             sleep 3
             curl localhost:8088/
   deploy:
