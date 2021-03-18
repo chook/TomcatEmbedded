@@ -40,7 +40,7 @@ jobs:
           path: ~/test-results/junit
   up9-tap-and-learn:
     docker:
-      - image: gcr.io/up9-docker-hub/circleci/cimg/up9:latest #circleci/node:latest #node:12-alpine
+      - image: cimg/openjdk:latest
     steps:
       - setup_remote_docker:
           version: 19.03.13
