@@ -9,5 +9,4 @@ services:
     depends_on:
       - "tomcat-embedded"
     command: |
-        sh -c "sleep 5s &&
-          curl http://tomcat-embedded:8080"
+        sh -c "watch -n2 'curl http://tomcat-embedded:8080 && curl http://tomcat-embedded:8080/FirstServlet?user=john'"
