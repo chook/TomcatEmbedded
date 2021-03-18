@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   maven: circleci/maven@1.1.1
-
+  docker: circleci/docker@1.5.0
 jobs:
   build:
     docker:
@@ -50,13 +50,22 @@ jobs:
             - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
             - v1-dependencies- # fallback in case previous cache key is not found
       - run: 
-          name: Running and learning
+          name: "[UP9] Install latest CLI"
+          command: sudo npm i -g up9
+      - run: 
+          name: "[UP9] Authenticate"
+          command: up9 auth:login --client-id=$UP9_CLIENT_ID --client-secret=$UP9_CLIENT_SECRET --env=$UP9_ENV
+      - run: 
+          name: Run server
           command: |
             mvn -DskipTests=true package jib:dockerBuild
-            docker run -d -p8088:8080 chook/tomcat-embedded
-            docker ps
-            sleep 3
-            curl localhost:8088/
+            docker-compose up
+
+      # docker run -d --name tomcat-embedded chook/tomcat-embedded
+      #docker ps
+      #sleep 3
+      #docker run --network container:tomcat-embedded
+
   deploy:
     docker:
       - image: circleci/openjdk:stretch
