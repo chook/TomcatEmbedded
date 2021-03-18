@@ -52,7 +52,7 @@ jobs:
       - run: 
           name: Running and learning
           command: |
-            mvn -Dmaven.test.skip=true compile  jib:dockerBuild
+            mvn compile jib:dockerBuild
             docker run -d -p8088:8080 chook/tomcat-embedded
             sleep 3
             curl localhost:8088/
