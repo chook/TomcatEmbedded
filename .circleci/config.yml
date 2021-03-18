@@ -62,7 +62,7 @@ jobs:
       - run: 
           name: Run test
           command: |
-            up9 tap:create-docker-compose $CIRCLE_JOB-$CIRCLE_BUILD_NUM
+            up9 tap:create-docker-compose $CIRCLE_JOB-$CIRCLE_BUILD_NUM --agent-name=$CIRCLE_JOB-$CIRCLE_BUILD_NUM
             docker-compose -f docker-compose.yml -f docker-compose-up9.yml -d
             sleep 30
       - run: 
