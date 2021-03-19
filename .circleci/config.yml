@@ -64,7 +64,7 @@ jobs:
           name: Run test
           command: |
             docker-compose -f docker-compose.yml -f docker-compose-up9.yml up -d
-            sleep 30
+            sleep 60
       - run: 
           name: Stop test
           command: |
